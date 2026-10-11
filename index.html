@@ -150,7 +150,7 @@
     <footer>
       <div class="extra" id="extraPsyllium" onclick="toggleDaily('psyllium')">
         <div class="box">✓</div>
-        <span>💧 1 cdta psyllium en agua</span>
+        <span>💧 1 cda de chía en agua</span>
       </div>
       <div class="extra" id="extraGym" onclick="toggleDaily('gym')">
         <div class="box">✓</div>
@@ -217,7 +217,7 @@ const STAPLES = [
   "Huevos (cartón de 30)",
   "Yogur griego natural 2% (unos 1.2 kg)",
   "Queso tierno bajo en sal",
-  "Chía · Linaza molida · Psyllium",
+  "Chía",
   "Aceite de oliva",
   "Almendras · Maní · Nueces sin sal",
   "Frijoles · Lentejas",
@@ -232,49 +232,49 @@ const PLAN = {
     desayuno:"Omelette de 1 huevo + 3 claras con ½ taza de [espinaca] y 30 g de queso tierno, en 1 cdta de aceite",
     almuerzo:"140 g de [res] en albóndigas o picadillo, ensalada grande (90 g lechuga · 120 g tomate · 150 g pepino · 2 cdtas de aceite de oliva), ¼ taza de frijoles",
     merienda:"Yogur griego natural 2% con 1 cda de chía y 20 g de almendras",
-    cena:"130 g de [tilapia] al horno con 1 taza de [brocoli] y 2 cdtas de aceite"
+    cena:"130 g de [tilapia] al horno con 150 g de [brocoli] y 2 cdtas de aceite"
   },
   martes: {
     n:"Mar", meta:{kcal:"~1260 kcal", prot:"~110 g proteína"},
-    desayuno:"Yogur griego natural 2% con chía, linaza, ½ taza de [fresas] y 2 mitades de nuez",
+    desayuno:"Yogur griego natural 2% con chía, ½ taza de [fresas] y 2 mitades de nuez",
     almuerzo:"Ensalada de [atun] (1 lata en agua, bajo sodio) con 60 g lechuga, 60 g tomate, 100 g pepino, ¼ de [aguacate] y 2 cdtas de aceite",
     merienda:"1 huevo duro + 20 g de maní sin sal",
-    cena:"130 g de [res] salteada con [vainicas] y [coliflor] en 2 cdtas de aceite"
+    cena:"130 g de [res] salteada con 150 g de [vainicas] y [coliflor] en 2 cdtas de aceite"
   },
   miercoles: {
     n:"Mié", meta:{kcal:"~1370 kcal", prot:"~125 g proteína"},
     desayuno:"1 huevo + 3 claras revueltos con [hongos], 1 tortilla de maíz, 1 cdta de aceite",
     almuerzo:"130 g de [res] (hamburguesa magra o picadillo), ¼ taza de lentejas, ensalada (60 g lechuga · 60 g tomate · 100 g pepino · 2 cdtas de aceite)",
-    merienda:"Yogur griego natural 2% con 1 cda de linaza, 1 cda de chía y 20 g de almendras",
-    cena:"120 g de [salmon] con [coliflor] asada y 1 cdta de aceite"
+    merienda:"Yogur griego natural 2% con 2 cdas de chía y 20 g de almendras",
+    cena:"120 g de [salmon] con 150 g de [coliflor] asada y 1 cdta de aceite"
   },
   jueves: {
     n:"Jue", meta:{kcal:"~1220 kcal", prot:"~98 g proteína"},
     desayuno:"Yogur griego natural 2% con chía, ½ taza de [fresas] y 20 g de almendras",
-    almuerzo:"150 g de [res] en picadillo de [chayote], [repollo] con limón, 2 cdtas de aceite",
+    almuerzo:"150 g de [res] en picadillo de [chayote], 100 g de [repollo] con limón, 2 cdtas de aceite",
     merienda:"20 g de maní sin sal + 30 g de queso tierno",
-    cena:"1 huevo + 4 claras en tortilla española sin papa, con [brocoli] y 2 cdtas de aceite"
+    cena:"1 huevo + 4 claras en tortilla española sin papa, con 150 g de [brocoli] y 2 cdtas de aceite"
   },
   viernes: {
     n:"Vie", meta:{kcal:"~1270 kcal", prot:"~123 g proteína"},
     desayuno:"1 huevo + 3 claras con ½ taza de [espinaca] y 30 g de queso tierno, 1 cdta de aceite",
     almuerzo:"Ensalada de [atun] (60 g lechuga · 60 g tomate · 100 g pepino) con ¼ taza de frijoles y 2 cdtas de aceite",
     merienda:"Yogur griego natural 2% con chía y 2 mitades de nuez",
-    cena:"130 g de [pollo] con [coliflor] y [vainicas] en 2 cdtas de aceite"
+    cena:"130 g de [pollo] con 150 g de [coliflor] y [vainicas] en 2 cdtas de aceite"
   },
   sabado: {
     n:"Sáb", meta:{kcal:"~1310 kcal", prot:"~113 g proteína"},
-    desayuno:"Yogur griego natural 2% con linaza, chía, ½ taza de [fresas] y 2 mitades de nuez",
+    desayuno:"Yogur griego natural 2% con chía, ½ taza de [fresas] y 2 mitades de nuez",
     almuerzo:"130 g de [pollo], ensalada (60 g lechuga · 60 g tomate · 100 g pepino) con ¼ de [aguacate] y 2 cdtas de aceite",
     merienda:"1 huevo duro + 20 g de almendras",
-    cena:"130 g de [tilapia], [chayote] y [repollo] salteados en 2 cdtas de aceite"
+    cena:"130 g de [tilapia], 150 g de [chayote] y [repollo] salteados en 2 cdtas de aceite"
   },
   domingo: {
     n:"Dom", meta:{kcal:"~1290 kcal", prot:"~118 g proteína"},
     desayuno:"1 huevo + 3 claras con [hongos], 1 tortilla de maíz, 1 cdta de aceite",
-    almuerzo:"130 g de [res], ¼ taza de lentejas, [repollo] con 2 cdtas de aceite",
+    almuerzo:"130 g de [res], ¼ taza de lentejas, 100 g de [repollo] con 2 cdtas de aceite",
     merienda:"Yogur griego natural 2% con chía y 20 g de almendras",
-    cena:"100 g de [pollo] con [coliflor] y 2 cdtas de aceite"
+    cena:"100 g de [pollo] con 150 g de [coliflor] y 2 cdtas de aceite"
   }
 };
 
@@ -335,14 +335,14 @@ const RECIPES = [
    days:"desayunos",
    note:"No las laves ni cortes antes: se ponen feas.",
    steps:["Lava y corta justo antes de comer."]},
-  {name:"Psyllium", tag:"diario",
+  {name:"Chía en agua", tag:"diario",
    days:"todos los días",
-   note:"Se mezcla al momento.",
-   steps:["1 cdta en un vaso grande de agua.","Revuelve y toma de inmediato."]},
+   note:"Fuente de fibra; se toma al momento.",
+   steps:["1 cda de chía en un vaso grande de agua.","Deja reposar 5 min (se forma gel), revuelve y toma."]},
   {name:"Yogur + chía", tag:"diario",
    days:"meriendas / desayunos",
    note:"Puedes dejar la chía remojando la noche anterior; arma el resto fresco.",
-   steps:["Sirve el yogur.","Añade chía/linaza y fruta al momento."]}
+   steps:["Sirve el yogur.","Añade chía y fruta al momento."]}
 ];
 
 const DAY_KEYS = ["lunes","martes","miercoles","jueves","viernes","sabado","domingo"];
