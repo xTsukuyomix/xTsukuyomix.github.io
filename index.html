@@ -47,8 +47,8 @@
   .btn-reset{border:1px solid var(--border);background:#fff;color:var(--muted);border-radius:8px;padding:7px 12px;font-size:12px;font-weight:600;cursor:pointer;}
   .btn-reset:active{background:#f3f4f6;}
 
-  nav.tabs{display:flex;gap:6px;padding:8px 16px 0;background:var(--card);}
-  nav.tabs button{border:1px solid var(--border);background:#fff;color:var(--muted);border-radius:10px 10px 0 0;padding:9px 14px;font-size:13px;font-weight:600;cursor:pointer;border-bottom:none;}
+  nav.tabs{display:flex;gap:6px;padding:8px 16px 0;background:var(--card);overflow-x:auto;}
+  nav.tabs button{border:1px solid var(--border);background:#fff;color:var(--muted);border-radius:10px 10px 0 0;padding:9px 13px;font-size:13px;font-weight:600;cursor:pointer;border-bottom:none;white-space:nowrap;}
   nav.tabs button.active{background:var(--bg);color:var(--ink);}
   nav.tabs button.active b{color:var(--accent);}
 
@@ -85,8 +85,8 @@
   .bar .fill{height:100%;background:linear-gradient(90deg,#22c55e,#16a34a);border-radius:999px;transition:width .3s;}
   .pct{font-size:13px;font-weight:700;color:var(--accent);min-width:44px;text-align:right;}
 
-  /* ---------- Ingredientes & Compras ---------- */
-  #viewIngredientes, #viewCompras{flex:1;min-height:0;overflow-y:auto;padding:14px 16px;display:none;}
+  /* ---------- Ingredientes & Compras & Recetas ---------- */
+  #viewIngredientes, #viewCompras, #viewRecetas{flex:1;min-height:0;overflow-y:auto;padding:14px 16px;display:none;}
   .ing-section{margin-bottom:14px;}
   .ing-section h2{font-size:14px;font-weight:700;margin-bottom:8px;color:var(--ink);}
   .ing-box{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
@@ -106,6 +106,19 @@
   .tip{background:var(--accent-soft);border:1px solid #bbf7d0;border-radius:10px;padding:10px 12px;font-size:12.5px;color:#166534;}
   .tip b{color:#14532d;}
 
+  .block-card{background:var(--card);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:12px;padding:12px;margin-bottom:8px;}
+  .block-card .b-title{font-weight:700;font-size:13.5px;margin-bottom:4px;}
+  .block-card .b-sub{font-size:12px;color:var(--muted);line-height:1.4;}
+  .recipe{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:8px;}
+  .recipe .r-head{display:flex;align-items:center;gap:8px;font-weight:700;font-size:13.5px;}
+  .recipe .r-tag{font-size:10px;font-weight:800;padding:2px 8px;border-radius:999px;margin-left:auto;white-space:nowrap;letter-spacing:.3px;}
+  .recipe .r-tag.prep{background:var(--accent-soft);color:var(--accent);}
+  .recipe .r-tag.diario{background:var(--warm-soft);color:#b45309;}
+  .recipe .r-days{font-size:11.5px;color:var(--muted);margin:3px 0 6px;}
+  .recipe ol{margin:2px 0 0 18px;font-size:12.5px;line-height:1.45;color:var(--ink);}
+  .recipe ol li{margin-bottom:2px;}
+  .recipe .r-note{font-size:11.5px;color:var(--muted);font-style:italic;margin-top:6px;}
+
   @media (max-width:760px){
     .meals{grid-template-columns:repeat(2,1fr);}
   }
@@ -123,6 +136,7 @@
 
   <nav class="tabs">
     <button id="tabSemana" class="active" onclick="showView('semana')">📅 <b>Semana</b></button>
+    <button id="tabRecetas" onclick="showView('recetas')">👩‍🍳 <b>Recetas</b></button>
     <button id="tabIng" onclick="showView('ingredientes')">🥕 <b>Ingredientes</b></button>
     <button id="tabCompras" onclick="showView('compras')">🛒 <b>Compras</b></button>
   </nav>
@@ -148,6 +162,10 @@
       </div>
       <div class="pct" id="progPct">0%</div>
     </footer>
+  </div>
+
+  <div id="viewRecetas">
+    <div id="recetasList"></div>
   </div>
 
   <div id="viewIngredientes">
@@ -260,6 +278,73 @@ const PLAN = {
   }
 };
 
+const PREP_BLOCKS = [
+  {title:"🍱 Domingo por la tarde → prepara para Lun · Mar · Mié",
+   sub:"Cocina en bloque: res molida, pollo, tilapia, vegetales al vapor/salteados, frijoles/lentejas y huevo duro. Divide en porciones y guarda en la refri."},
+  {title:"🍱 Miércoles por la tarde → prepara para Jue · Vie · Sáb",
+   sub:"Cocina en bloque: res molida, pollo, vegetales y huevo duro. Lo fresco (ensaladas, huevo revuelto, fruta) se hace al momento."}
+];
+
+const RECIPES = [
+  {name:"Res magra molida (albóndigas o picadillo)", tag:"prep",
+   days:"Lun almuerzo · Mar cena · Mié almuerzo · Jue almuerzo · Dom almuerzo",
+   note:"Cocina el kilo entero de una vez → ~5 porciones de 140 g. En refri dura hasta 4 días.",
+   steps:["Sazona con ajo, cebolla, culantro, comino y pimienta (poca sal).","Forma albóndigas o saltéala como picadillo en 1 cdta de aceite.","Escurre la grasa.","Divide en porciones de ~140 g y guarda."]},
+  {name:"Pollo (plancha o salteado)", tag:"prep",
+   days:"Vie cena · Sáb almuerzo · Dom cena",
+   note:"Cocina en bloque y divide en porciones de 130–140 g. En refri 3–4 días.",
+   steps:["Pechuga con ajo, limón y pimienta.","A la plancha o salteada con 1 cdta de aceite.","Divide en porciones de ~130 g y guarda."]},
+  {name:"Tilapia al horno", tag:"prep",
+   days:"Lun cena · Sáb cena",
+   note:"Prepara 2 porciones; consúmelas en 2 días (el pescado no dura tanto).",
+   steps:["130 g con limón, ajo y orégano + 1 cdta de aceite.","Al horno 180 °C por ~15 min.","Guarda en porciones."]},
+  {name:"Salmón", tag:"prep",
+   days:"Mié cena",
+   note:"Consume en 1–2 días.",
+   steps:["120 g con limón y pimienta.","Al horno o sartén 8–10 min."]},
+  {name:"Vegetales (vainicas, coliflor, chayote, repollo, hongos)", tag:"prep",
+   days:"varios días de la semana",
+   note:"Córtalos y cuécelos en bloque el día de prep; guarda porciones en la refri.",
+   steps:["Lava y corta todo de una vez.","Al vapor 5–7 min o salteados con 1 cdta de aceite.","Guarda porciones (los de hoja no se congelan bien)."]},
+  {name:"Frijoles y lentejas", tag:"prep",
+   days:"Lun · Mié · Vie · Dom (¼ taza)",
+   note:"Cocina una olla y divide en porciones de ¼ taza; congela el resto.",
+   steps:["Cocina sin sal al inicio; sazona al final.","Divide en ¼ taza y refrigera o congela."]},
+  {name:"Huevo duro", tag:"prep",
+   days:"Mar merienda · Sáb merienda",
+   note:"Hierve varios de una vez; en refri hasta 5 días.",
+   steps:["Hierve 6–8 min, enfría y pela.","Guarda en la refri."]},
+  {name:"Tortilla española sin papa", tag:"prep",
+   days:"Jue cena",
+   note:"Rinde 2 porciones; en refri 2 días.",
+   steps:["Bate 1 huevo + 4 claras.","Cuaja en sartén con 1 cdta de aceite y añade vegetales.","Divide en 2 porciones."]},
+
+  {name:"Omelette / huevos revueltos", tag:"diario",
+   days:"desayunos (Lun · Mié · Vie · Dom)",
+   note:"Se hace en 5 min; mejor fresco (el huevo pierde textura recalentado).",
+   steps:["Bate huevo + claras al momento.","Cuaja en sartén con 1 cdta de aceite y añade espinaca o queso."]},
+  {name:"Ensalada con aguacate", tag:"diario",
+   days:"Lun · Mar · Sáb",
+   note:"El aguacate se oxida (se pone negro): córtalo al momento de comer.",
+   steps:["Arma la ensalada al momento.","Añade el aguacate al final."]},
+  {name:"Ensalada de atún", tag:"diario",
+   days:"Mar almuerzo · Vie almuerzo",
+   note:"Puedes escurrir el atún la noche antes; arma la ensalada fresca.",
+   steps:["Escurre el atún (bajo sodio).","Mezcla con vegetales frescos y aguacate al momento."]},
+  {name:"Fresas", tag:"diario",
+   days:"desayunos",
+   note:"No las laves ni cortes antes: se ponen feas.",
+   steps:["Lava y corta justo antes de comer."]},
+  {name:"Psyllium", tag:"diario",
+   days:"todos los días",
+   note:"Se mezcla al momento.",
+   steps:["1 cdta en un vaso grande de agua.","Revuelve y toma de inmediato."]},
+  {name:"Yogur + chía", tag:"diario",
+   days:"meriendas / desayunos",
+   note:"Puedes dejar la chía remojando la noche anterior; arma el resto fresco.",
+   steps:["Sirve el yogur.","Añade chía/linaza y fruta al momento."]}
+];
+
 const DAY_KEYS = ["lunes","martes","miercoles","jueves","viernes","sabado","domingo"];
 const CORE_COUNT = 5;
 const STORE_KEY = "plan-alimentacion-v2";
@@ -296,8 +381,8 @@ function resolve(text){
     if(!INGREDIENTS[key]) return m;
     if(ing[key]) return INGREDIENTS[key].name;
     for(const a of INGREDIENTS[key].alts){
-      if(!INGREDIENTS[a]) return a;              // alternativa en texto plano (siempre disponible)
-      if(ing[a]) return INGREDIENTS[a].name;      // alternativa que sí tienes
+      if(!INGREDIENTS[a]) return a;
+      if(ing[a]) return INGREDIENTS[a].name;
     }
     return altName(INGREDIENTS[key].alts[0]);
   });
@@ -373,7 +458,30 @@ function renderProgress(){
   document.getElementById("progLabel").textContent =
     done === total ? "¡Día completo! 🎉" : `Progreso del día (${done}/${total})`;
 }
+function renderRecetas(){
+  const wrap = document.getElementById("recetasList");
+  let html = `<div class="ing-section"><h2>🗓️ Bloques de meal prep</h2>`;
+  PREP_BLOCKS.forEach(b => {
+    html += `<div class="block-card"><div class="b-title">${b.title}</div><div class="b-sub">${b.sub}</div></div>`;
+  });
+  html += `</div>`;
 
+  [["prep","🍱 Meal prep (prepara en bloque)","MEAL PREP"],
+   ["diario","🥗 Diario / fresco (no preparar antes)","DIARIO"]].forEach(([tag,title,label]) => {
+    html += `<div class="ing-section"><h2>${title}</h2>`;
+    RECIPES.filter(r => r.tag === tag).forEach(r => {
+      const steps = r.steps.map(s => `<li>${s}</li>`).join("");
+      html += `<div class="recipe">
+        <div class="r-head">${r.name}<span class="r-tag ${r.tag}">${label}</span></div>
+        <div class="r-days">${r.days}</div>
+        <ol>${steps}</ol>
+        <div class="r-note">${r.note}</div>
+      </div>`;
+    });
+    html += `</div>`;
+  });
+  wrap.innerHTML = html;
+}
 function renderIngredientes(){
   const wrap = document.getElementById("ingList");
   wrap.innerHTML = "";
@@ -404,7 +512,6 @@ function renderIngredientes(){
     wrap.appendChild(sec);
   });
 }
-
 function renderCompras(){
   const wrap = document.getElementById("comprasList");
   const off = Object.keys(INGREDIENTS).filter(k => !ing[k]);
@@ -443,15 +550,16 @@ function renderCompras(){
 
 function render(){
   renderNav(); renderDots(); renderMeta(); renderMeals(); renderExtras(); renderProgress();
-  renderIngredientes(); renderCompras();
+  renderRecetas(); renderIngredientes(); renderCompras();
 }
 
 function showView(v){
-  const views = {semana:"flex", ingredientes:"block", compras:"block"};
+  const views = {semana:"flex", recetas:"block", ingredientes:"block", compras:"block"};
   Object.keys(views).forEach(key => {
     document.getElementById("view" + key.charAt(0).toUpperCase() + key.slice(1)).style.display = (key === v) ? views[key] : "none";
   });
   document.getElementById("tabSemana").className = v === "semana" ? "active" : "";
+  document.getElementById("tabRecetas").className = v === "recetas" ? "active" : "";
   document.getElementById("tabIng").className = v === "ingredientes" ? "active" : "";
   document.getElementById("tabCompras").className = v === "compras" ? "active" : "";
 }
