@@ -1,741 +1,393 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Diesssta Muscular Interactiva</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 10px;
-        }
-        
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            padding: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-        }
-        
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-        
-        .stat-card {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            padding: 15px;
-            border-radius: 15px;
-            text-align: center;
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
-        }
-        
-        .stat-value {
-            font-size: 24px;
-            font-weight: bold;
-            display: block;
-        }
-        
-        .stat-label {
-            font-size: 12px;
-            opacity: 0.9;
-        }
-        
-        .day-selector {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 25px;
-            flex-wrap: wrap;
-        }
-        
-        .day-btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 25px;
-            background: #f0f0f0;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 500;
-        }
-        
-        .day-btn.active {
-            background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
-        }
-        
-        .meal-section {
-            margin-bottom: 25px;
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-            border-left: 5px solid #4ECDC4;
-        }
-        
-        .meal-title {
-            font-size: 20px;
-            color: #333;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .meal-icon {
-            font-size: 24px;
-        }
-        
-        .food-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px;
-            margin: 8px 0;
-            background: linear-gradient(90deg, #f8f9ff, #fff);
-            border-radius: 10px;
-            border: 1px solid #e0e0e0;
-            transition: all 0.3s ease;
-        }
-        
-        .food-item:hover {
-            transform: translateX(5px);
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-        }
-        
-        .food-info {
-            flex: 1;
-        }
-        
-        .food-name {
-            font-weight: 600;
-            color: #333;
-        }
-        
-        .food-amount {
-            color: #666;
-            font-size: 14px;
-        }
-        
-        .food-nutrients {
-            font-size: 12px;
-            color: #888;
-            margin-top: 2px;
-        }
-        
-        .checkbox-container {
-            position: relative;
-            display: inline-block;
-        }
-        
-        .food-checkbox {
-            width: 24px;
-            height: 24px;
-            border: 2px solid #4ECDC4;
-            border-radius: 6px;
-            background: white;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-        
-        .food-checkbox.checked {
-            background: linear-gradient(45deg, #4ECDC4, #44A08D);
-            border-color: #44A08D;
-        }
-        
-        .food-checkbox.checked::after {
-            content: '✓';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: white;
-            font-weight: bold;
-            font-size: 14px;
-        }
-        
-        .progress-section {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            margin-top: 20px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-        }
-        
-        .progress-bar {
-            background: #f0f0f0;
-            border-radius: 10px;
-            overflow: hidden;
-            margin: 10px 0;
-            height: 12px;
-        }
-        
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #4ECDC4, #44A08D);
-            transition: width 0.5s ease;
-            border-radius: 10px;
-        }
-        
-        .notes-section {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            margin-top: 20px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-        }
-        
-        .notes-textarea {
-            width: 100%;
-            min-height: 100px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            padding: 15px;
-            font-family: inherit;
-            resize: vertical;
-            transition: border-color 0.3s ease;
-        }
-        
-        .notes-textarea:focus {
-            outline: none;
-            border-color: #4ECDC4;
-        }
-        
-        .btn {
-            background: linear-gradient(45deg, #FF6B6B, #FF8E53);
-            color: white;
-            border: none;
-            padding: 15px 20px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: 600;
-            margin-top: 20px;
-            transition: all 0.3s ease;
-            width: 100%;
-        }
-        
-        .btn-export {
-            background: linear-gradient(45deg, #4ECDC4, #44A08D);
-            margin-top: 10px;
-        }
-        
-        .btn-import {
-            background: linear-gradient(45deg, #746be6, #5741d4);
-            margin-top: 10px;
-        }
-        
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
-        }
-        
-        .sync-section {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            margin-top: 20px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-            text-align: center;
-        }
-        
-        .file-input {
-            display: none;
-        }
-        
-        .btn-group {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-        }
-        
-        @media (max-width: 600px) {
-            .container {
-                padding: 15px;
-                margin: 5px;
-            }
-            
-            .stats {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .day-btn {
-                padding: 8px 12px;
-                font-size: 14px;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Plan de Alimentación</title>
+<style>
+  :root{
+    --bg:#f4f6f8;
+    --card:#ffffff;
+    --ink:#1f2937;
+    --muted:#6b7280;
+    --accent:#16a34a;
+    --accent-soft:#dcfce7;
+    --warm:#f59e0b;
+    --border:#e5e7eb;
+    --done:#9ca3af;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{height:100%;}
+  body{
+    font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    display:flex;
+    flex-direction:column;
+    height:100vh;
+    overflow:hidden;
+    font-size:14px;
+  }
+
+  /* ---------- Header ---------- */
+  header{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:10px 16px;
+    background:var(--card);
+    border-bottom:1px solid var(--border);
+  }
+  header .title{font-size:17px;font-weight:700;letter-spacing:-.2px;}
+  header .subtitle{font-size:11px;color:var(--muted);margin-top:1px;}
+  .week-dots{display:flex;gap:6px;margin-left:auto;align-items:center;}
+  .week-dots .dot{
+    width:26px;height:26px;border-radius:8px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:11px;font-weight:700;color:var(--muted);
+    background:#f3f4f6;border:1px solid var(--border);cursor:pointer;
+  }
+  .week-dots .dot.today{border-color:var(--accent);color:var(--accent);}
+  .week-dots .dot.full{background:var(--accent);border-color:var(--accent);color:#fff;}
+  .week-dots .dot.partial{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);}
+  .btn-reset{
+    border:1px solid var(--border);background:#fff;color:var(--muted);
+    border-radius:8px;padding:7px 12px;font-size:12px;font-weight:600;cursor:pointer;
+  }
+  .btn-reset:active{background:#f3f4f6;}
+
+  /* ---------- Day nav ---------- */
+  nav.days{
+    display:flex;
+    gap:6px;
+    padding:8px 16px;
+    background:var(--card);
+    border-bottom:1px solid var(--border);
+    overflow-x:auto;
+  }
+  nav.days button{
+    flex:1;min-width:0;
+    border:1px solid var(--border);background:#fff;color:var(--muted);
+    border-radius:10px;padding:9px 4px;font-size:12px;font-weight:600;cursor:pointer;
+    white-space:nowrap;
+  }
+  nav.days button.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+
+  /* ---------- Main ---------- */
+  main{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    padding:12px 16px;
+    gap:10px;
+    min-height:0;
+  }
+  .day-meta{
+    display:flex;align-items:center;gap:14px;
+    font-size:12px;color:var(--muted);
+  }
+  .day-meta b{color:var(--ink);font-size:13px;}
+  .day-meta .chip{
+    background:var(--accent-soft);color:var(--accent);
+    padding:3px 10px;border-radius:999px;font-weight:700;font-size:12px;
+  }
+
+  .meals{
+    flex:1;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
+    min-height:0;
+  }
+  .meal-card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:12px;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    overflow-y:auto;
+  }
+  .meal-head{
+    display:flex;align-items:center;gap:8px;
+    font-weight:700;font-size:13px;
+  }
+  .meal-head .icon{font-size:18px;}
+  .meal-item{
+    display:flex;align-items:flex-start;gap:10px;
+    background:#fafafa;border:1px solid var(--border);border-radius:10px;
+    padding:10px;cursor:pointer;user-select:none;
+    transition:background .15s;
+  }
+  .meal-item:active{background:#f0f0f0;}
+  .meal-item .box{
+    width:22px;height:22px;border-radius:7px;border:2px solid var(--accent);
+    flex:0 0 auto;margin-top:1px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:14px;color:#fff;font-weight:800;transition:background .15s;
+  }
+  .meal-item.done{opacity:.55;}
+  .meal-item.done .text{text-decoration:line-through;color:var(--done);}
+  .meal-item.done .box{background:var(--accent);}
+  .meal-item .text{font-size:12.5px;line-height:1.35;color:var(--ink);}
+
+  /* ---------- Footer ---------- */
+  footer{
+    display:flex;align-items:center;gap:14px;
+    padding:10px 16px;
+    background:var(--card);
+    border-top:1px solid var(--border);
+  }
+  .extra{
+    display:flex;align-items:center;gap:8px;
+    font-size:12.5px;font-weight:600;cursor:pointer;user-select:none;
+    padding:8px 12px;border:1px solid var(--border);border-radius:10px;background:#fff;
+  }
+  .extra .box{
+    width:20px;height:20px;border-radius:6px;border:2px solid var(--warm);
+    display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;font-weight:800;
+  }
+  .extra.on .box{background:var(--warm);}
+  .progress-wrap{flex:1;display:flex;flex-direction:column;gap:4px;}
+  .progress-wrap .label{font-size:11px;color:var(--muted);font-weight:600;}
+  .bar{height:10px;background:#eef0f2;border-radius:999px;overflow:hidden;}
+  .bar .fill{height:100%;background:linear-gradient(90deg,#22c55e,#16a34a);border-radius:999px;transition:width .3s;}
+  .pct{font-size:13px;font-weight:700;color:var(--accent);min-width:44px;text-align:right;}
+
+  @media (max-width:760px){
+    .meals{grid-template-columns:repeat(2,1fr);}
+  }
+</style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>💪 Dieta para Crecimiento Muscular</h1>
-            <p>Seguimiento Diario</p>
-        </div>
-        
-        <div class="stats">
-            <div class="stat-card">
-                <span class="stat-value" id="totalProteins">0g</span>
-                <span class="stat-label">PROTEÍNA</span>
-            </div>
-            <div class="stat-card">
-                <span class="stat-value" id="totalCarbs">0g</span>
-                <span class="stat-label">CARBOHIDRATOS</span>
-            </div>
-            <div class="stat-card">
-                <span class="stat-value" id="totalCalories">0</span>
-                <span class="stat-label">CALORÍAS</span>
-            </div>
-            <div class="stat-card">
-                <span class="stat-value" id="progress">0%</span>
-                <span class="stat-label">PROGRESO</span>
-            </div>
-        </div>
-        
-        <div class="day-selector">
-            <button class="day-btn active" onclick="selectDay('lunes')">L</button>
-            <button class="day-btn" onclick="selectDay('martes')">M</button>
-            <button class="day-btn" onclick="selectDay('miercoles')">X</button>
-            <button class="day-btn" onclick="selectDay('jueves')">J</button>
-            <button class="day-btn" onclick="selectDay('viernes')">V</button>
-            <button class="day-btn" onclick="selectDay('sabado')">S</button>
-            <button class="day-btn" onclick="selectDay('domingo')">D</button>
-        </div>
-        
-        <div id="mealsContainer"></div>
-        
-        <div class="progress-section">
-            <h3>📊 Progreso del Día</h3>
-            <div>
-                <span>Proteína:</span>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="proteinProgress" style="width: 0%"></div>
-                </div>
-                <span id="proteinText">0g / 120g</span>
-            </div>
-            <div>
-                <span>Calorías:</span>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="calorieProgress" style="width: 0%"></div>
-                </div>
-                <span id="calorieText">0 / 2200 kcal</span>
-            </div>
-        </div>
-        
-        <div class="notes-section">
-            <h3>📝 Notas del Día</h3>
-            <textarea class="notes-textarea" id="dailyNotes" placeholder="Escribe aquí tus observaciones del día (cómo te sentiste, entrenamientos, etc.)..."></textarea>
-        </div>
-        
-        <button class="btn" onclick="resetDay()">🔄 Reiniciar Día</button>
-        
-        <div class="sync-section">
-            <h3>📱 Sincronización entre dispositivos</h3>
-            <p>Exporta tus datos para guardarlos en Google Drive y luego impórtalos en otro dispositivo</p>
-            <div class="btn-group">
-                <button class="btn btn-export" onclick="exportData()">📤 Exportar datos</button>
-                <button class="btn btn-import" onclick="document.getElementById('fileInput').click()">📥 Importar datos</button>
-            </div>
-            <input type="file" id="fileInput" class="file-input" accept=".json" onchange="importData(this.files)" />
-        </div>
+  <header>
+    <div>
+      <div class="title">🥗 Plan de Alimentación</div>
+      <div class="subtitle">Seguimiento semanal</div>
     </div>
+    <div class="week-dots" id="weekDots"></div>
+    <button class="btn-reset" onclick="resetWeek()">↺ Reiniciar semana</button>
+  </header>
 
-    <script>
-        const dietPlan = {
-            lunes: {
-                desayuno: [
-                    { name: "Avena cocida", amount: "80g", protein: 11, carbs: 56, calories: 300, notes: "P: 11g, C: 56g, G: 6g" },
-                    { name: "Huevos revueltos", amount: "2 unidades", protein: 12, carbs: 1, calories: 140, notes: "P: 12g, C: 1g, G: 10g" },
-                    { name: "Tomate picado", amount: "100g", protein: 1, carbs: 4, calories: 18, notes: "P: 1g, C: 4g, Fibra" }
-                ],
-                almuerzo: [
-                    { name: "Pollo (muslo/cadera)", amount: "250g", protein: 46, carbs: 0, calories: 320, notes: "P: 46g, C: 0g, G: 14g" },
-                    { name: "Arroz cocido", amount: "150g", protein: 4, carbs: 45, calories: 200, notes: "P: 4g, C: 45g, G: 1g" },
-                    { name: "Lentejas cocidas", amount: "100g", protein: 9, carbs: 20, calories: 116, notes: "P: 9g, C: 20g, Fibra" },
-                    { name: "Zanahoria cocida", amount: "80g", protein: 1, carbs: 6, calories: 26, notes: "P: 1g, C: 6g, Vitamina A" }
-                ],
-                cena: [
-                    { name: "Bistec de cerdo", amount: "180g", protein: 36, carbs: 0, calories: 280, notes: "P: 36g, C: 0g, G: 14g" },
-                    { name: "Camote hervido", amount: "200g", protein: 4, carbs: 40, calories: 180, notes: "P: 4g, C: 40g, Fibra" },
-                    { name: "Repollo salteado", amount: "100g", protein: 1, carbs: 6, calories: 25, notes: "P: 1g, C: 6g, Vitamina C" }
-                ]
-            },
-            martes: {
-                desayuno: [
-                    { name: "Garbanzos cocidos", amount: "120g", protein: 10, carbs: 22, calories: 140, notes: "P: 10g, C: 22g, Fibra" },
-                    { name: "Huevo cocido", amount: "2 unidades", protein: 12, carbs: 1, calories: 140, notes: "P: 12g, C: 1g, G: 10g" },
-                    { name: "Tomate", amount: "100g", protein: 1, carbs: 4, calories: 18, notes: "P: 1g, C: 4g, Licopeno" }
-                ],
-                almuerzo: [
-                    { name: "Pollo (muslo/cadera)", amount: "250g", protein: 46, carbs: 0, calories: 320, notes: "P: 46g, C: 0g, G: 14g" },
-                    { name: "Papa hervida", amount: "250g", protein: 5, carbs: 50, calories: 220, notes: "P: 5g, C: 50g, Potasio" },
-                    { name: "Frijoles negros", amount: "100g", protein: 9, carbs: 23, calories: 130, notes: "P: 9g, C: 23g, Hierro" }
-                ],
-                cena: [
-                    { name: "Atún en agua", amount: "150g", protein: 35, carbs: 0, calories: 150, notes: "P: 35g, C: 0g, Omega-3" },
-                    { name: "Pasta cocida", amount: "100g", protein: 5, carbs: 25, calories: 130, notes: "P: 5g, C: 25g, G: 1g" },
-                    { name: "Zanahoria rallada", amount: "80g", protein: 1, carbs: 6, calories: 26, notes: "P: 1g, C: 6g, Betacaroteno" }
-                ]
-            },
-            miercoles: {
-                desayuno: [
-                    { name: "Avena cocida", amount: "80g", protein: 11, carbs: 56, calories: 300, notes: "P: 11g, C: 56g, G: 6g" },
-                    { name: "Huevos", amount: "2 unidades", protein: 12, carbs: 1, calories: 140, notes: "P: 12g, C: 1g, G: 10g" }
-                ],
-                almuerzo: [
-                    { name: "Bistec de cerdo", amount: "180g", protein: 36, carbs: 0, calories: 280, notes: "P: 36g, C: 0g, G: 14g" },
-                    { name: "Arroz cocido", amount: "150g", protein: 4, carbs: 45, calories: 200, notes: "P: 4g, C: 45g, G: 1g" },
-                    { name: "Garbanzos cocidos", amount: "100g", protein: 8, carbs: 18, calories: 115, notes: "P: 8g, C: 18g, Fibra" },
-                    { name: "Repollo", amount: "100g", protein: 1, carbs: 6, calories: 25, notes: "P: 1g, C: 6g, Vitamina K" }
-                ],
-                cena: [
-                    { name: "Pollo (muslo/cadera)", amount: "250g", protein: 46, carbs: 0, calories: 320, notes: "P: 46g, C: 0g, G: 14g" },
-                    { name: "Camote hervido", amount: "200g", protein: 4, carbs: 40, calories: 180, notes: "P: 4g, C: 40g, Fibra" },
-                    { name: "Tomate", amount: "100g", protein: 1, carbs: 4, calories: 18, notes: "P: 1g, C: 4g, Vitaminas" }
-                ]
-            },
-            jueves: {
-                desayuno: [
-                    { name: "Lentejas cocidas", amount: "120g", protein: 11, carbs: 24, calories: 140, notes: "P: 11g, C: 24g, Hierro" },
-                    { name: "Huevo", amount: "2 unidades", protein: 12, carbs: 1, calories: 140, notes: "P: 12g, C: 1g, G: 10g" },
-                    { name: "Zanahoria cocida", amount: "80g", protein: 1, carbs: 6, calories: 26, notes: "P: 1g, C: 6g, Vitamina A" }
-                ],
-                almuerzo: [
-                    { name: "Pollo (muslo/cadera)", amount: "250g", protein: 46, carbs: 0, calories: 320, notes: "P: 46g, C: 0g, G: 14g" },
-                    { name: "Papa hervida", amount: "250g", protein: 5, carbs: 50, calories: 220, notes: "P: 5g, C: 50g, Potasio" },
-                    { name: "Frijoles negros", amount: "100g", protein: 9, carbs: 23, calories: 130, notes: "P: 9g, C: 23g, Fibra" }
-                ],
-                cena: [
-                    { name: "Bistec de cerdo", amount: "180g", protein: 36, carbs: 0, calories: 280, notes: "P: 36g, C: 0g, G: 14g" },
-                    { name: "Pasta cocida", amount: "100g", protein: 5, carbs: 25, calories: 130, notes: "P: 5g, C: 25g, G: 1g" },
-                    { name: "Repollo salteado", amount: "100g", protein: 1, carbs: 6, calories: 25, notes: "P: 1g, C: 6g, Antioxidantes" }
-                ]
-            },
-            viernes: {
-                desayuno: [
-                    { name: "Avena cocida", amount: "80g", protein: 11, carbs: 56, calories: 300, notes: "P: 11g, C: 56g, G: 6g" },
-                    { name: "Huevos", amount: "2 unidades", protein: 12, carbs: 1, calories: 140, notes: "P: 12g, C: 1g, G: 10g" },
-                    { name: "Tomate", amount: "100g", protein: 1, carbs: 4, calories: 18, notes: "P: 1g, C: 4g, Antioxidantes" }
-                ],
-                almuerzo: [
-                    { name: "Atún en agua", amount: "150g", protein: 35, carbs: 0, calories: 150, notes: "P: 35g, C: 0g, Omega-3" },
-                    { name: "Arroz cocido", amount: "150g", protein: 4, carbs: 45, calories: 200, notes: "P: 4g, C: 45g, G: 1g" },
-                    { name: "Garbanzos cocidos", amount: "100g", protein: 8, carbs: 18, calories: 115, notes: "P: 8g, C: 18g, Fibra" },
-                    { name: "Zanahoria", amount: "80g", protein: 1, carbs: 6, calories: 26, notes: "P: 1g, C: 6g, Vitaminas" }
-                ],
-                cena: [
-                    { name: "Pollo (muslo/cadera)", amount: "250g", protein: 46, carbs: 0, calories: 320, notes: "P: 46g, C: 0g, G: 14g" },
-                    { name: "Camote hervido", amount: "200g", protein: 4, carbs: 40, calories: 180, notes: "P: 4g, C: 40g, Fibra" },
-                    { name: "Repollo", amount: "100g", protein: 1, carbs: 6, calories: 25, notes: "P: 1g, C: 6g, Vitamina C" }
-                ]
-            },
-            sabado: {
-                desayuno: [
-                    { name: "Garbanzos cocidos", amount: "120g", protein: 10, carbs: 22, calories: 140, notes: "P: 10g, C: 22g, Fibra" },
-                    { name: "Huevos", amount: "2 unidades", protein: 12, carbs: 1, calories: 140, notes: "P: 12g, C: 1g, G: 10g" }
-                ],
-                almuerzo: [
-                    { name: "Bistec de cerdo", amount: "180g", protein: 36, carbs: 0, calories: 280, notes: "P: 36g, C: 0g, G: 14g" },
-                    { name: "Papa hervida", amount: "250g", protein: 5, carbs: 50, calories: 220, notes: "P: 5g, C: 50g, Potasio" },
-                    { name: "Lentejas cocidas", amount: "100g", protein: 9, carbs: 20, calories: 116, notes: "P: 9g, C: 20g, Hierro" },
-                    { name: "Tomate", amount: "100g", protein: 1, carbs: 4, calories: 18, notes: "P: 1g, C: 4g, Licopeno" }
-                ],
-                cena: [
-                    { name: "Pollo (muslo/cadera)", amount: "250g", protein: 46, carbs: 0, calories: 320, notes: "P: 46g, C: 0g, G: 14g" },
-                    { name: "Pasta cocida", amount: "100g", protein: 5, carbs: 25, calories: 130, notes: "P: 5g, C: 25g, G: 1g" },
-                    { name: "Zanahoria cocida", amount: "80g", protein: 1, carbs: 6, calories: 26, notes: "P: 1g, C: 6g, Betacaroteno" }
-                ]
-            },
-            domingo: {
-                desayuno: [
-                    { name: "Avena cocida", amount: "80g", protein: 11, carbs: 56, calories: 300, notes: "P: 11g, C: 56g, G: 6g" },
-                    { name: "Huevos", amount: "2 unidades", protein: 12, carbs: 1, calories: 140, notes: "P: 12g, C: 1g, G: 10g" },
-                    { name: "Repollo crudo", amount: "100g", protein: 1, carbs: 6, calories: 25, notes: "P: 1g, C: 6g, Enzimas" }
-                ],
-                almuerzo: [
-                    { name: "Atún en agua", amount: "150g", protein: 35, carbs: 0, calories: 150, notes: "P: 35g, C: 0g, Omega-3" },
-                    { name: "Arroz cocido", amount: "150g", protein: 4, carbs: 45, calories: 200, notes: "P: 4g, C: 45g, G: 1g" },
-                    { name: "Frijoles negros", amount: "100g", protein: 9, carbs: 23, calories: 130, notes: "P: 9g, C: 23g, Antioxidantes" },
-                    { name: "Camote hervido", amount: "150g", protein: 3, carbs: 30, calories: 135, notes: "P: 3g, C: 30g, Vitamina A" }
-                ],
-                cena: [
-                    { name: "Pollo (muslo/cadera)", amount: "250g", protein: 46, carbs: 0, calories: 320, notes: "P: 46g, C: 0g, G: 14g" },
-                    { name: "Papa hervida", amount: "200g", protein: 4, carbs: 40, calories: 176, notes: "P: 4g, C: 40g, Potasio" },
-                    { name: "Tomate", amount: "100g", protein: 1, carbs: 4, calories: 18, notes: "P: 1g, C: 4g, Vitaminas" }
-                ]
-            }
-        };
+  <nav class="days" id="dayNav"></nav>
 
-        let currentDay = 'lunes';
-        let checkedItems = {};
-        let dailyNotes = {};
-        const PROTEIN_GOAL = 120;
-        const CALORIE_GOAL = 2200;
+  <main>
+    <div class="day-meta" id="dayMeta"></div>
+    <div class="meals" id="meals"></div>
+  </main>
 
-        // Cargar datos guardados (usando localStorage)
-        function loadSavedData() {
-            const savedChecked = localStorage.getItem('dietCheckedItems');
-            const savedNotes = localStorage.getItem('dietDailyNotes');
-            
-            if (savedChecked) {
-                checkedItems = JSON.parse(savedChecked);
-            }
-            
-            if (savedNotes) {
-                dailyNotes = JSON.parse(savedNotes);
-            }
-        }
+  <footer>
+    <div class="extra" id="extraPsyllium" onclick="toggleDaily('psyllium')">
+      <div class="box">✓</div>
+      <span>💧 1 cdta psyllium en agua</span>
+    </div>
+    <div class="extra" id="extraGym" onclick="toggleDaily('gym')">
+      <div class="box">✓</div>
+      <span>🏋️ Extra gimnasio: 1 tortilla + 20 g maní</span>
+    </div>
+    <div class="progress-wrap">
+      <div class="label" id="progLabel">Progreso del día</div>
+      <div class="bar"><div class="fill" id="progFill" style="width:0%"></div></div>
+    </div>
+    <div class="pct" id="progPct">0%</div>
+  </footer>
 
-        // Guardar datos (en localStorage)
-        function saveData() {
-            // Guardar las notas actuales antes de almacenar
-            dailyNotes[currentDay] = document.getElementById('dailyNotes').value;
-            
-            localStorage.setItem('dietCheckedItems', JSON.stringify(checkedItems));
-            localStorage.setItem('dietDailyNotes', JSON.stringify(dailyNotes));
-            localStorage.setItem('lastUpdate', new Date().toISOString());
-        }
+<script>
+const MEAL_META = {
+  desayuno: {icon:"🌅", name:"Desayuno"},
+  almuerzo: {icon:"☀️", name:"Almuerzo"},
+  merienda: {icon:"🍎", name:"Merienda"},
+  cena:     {icon:"🌙", name:"Cena"}
+};
+const MEAL_ORDER = ["desayuno","almuerzo","merienda","cena"];
 
-        function selectDay(day) {
-            // Guardar notas del día actual
-            dailyNotes[currentDay] = document.getElementById('dailyNotes').value;
-            
-            currentDay = day;
-            
-            // Actualizar botones
-            document.querySelectorAll('.day-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            
-            renderMeals();
-            updateStats();
-            
-            // Cargar notas del nuevo día
-            document.getElementById('dailyNotes').value = dailyNotes[currentDay] || '';
-            
-            // Guardar cambios
-            saveData();
-        }
+const PLAN = {
+  lunes: {
+    n:"Lun",
+    meta:{kcal:"~1307 kcal", prot:"~130 g proteína"},
+    desayuno:"Omelette de 1 huevo + 3 claras con ½ taza de espinaca y 30 g de queso tierno, en 1 cdta de aceite",
+    almuerzo:"130 g de pollo a la plancha, ensalada grande con 2 cdtas de aceite de oliva, ¼ taza de frijoles",
+    merienda:"Yogur griego natural 2% con 1 cda de chía y 20 g de almendras",
+    cena:"130 g de tilapia al horno con 1 taza de brócoli y 2 cdtas de aceite"
+  },
+  martes: {
+    n:"Mar",
+    meta:{kcal:"~1260 kcal", prot:"~110 g proteína"},
+    desayuno:"Yogur griego natural 2% con chía, linaza, ½ taza de fresas y 2 mitades de nuez",
+    almuerzo:"Ensalada de atún (1 lata en agua, bajo sodio) con ¼ de aguacate, pepino y 2 cdtas de aceite",
+    merienda:"1 huevo duro + 20 g de maní sin sal",
+    cena:"130 g de pollo salteado con vainicas y coliflor en 2 cdtas de aceite"
+  },
+  miercoles: {
+    n:"Mié",
+    meta:{kcal:"~1372 kcal", prot:"~125 g proteína"},
+    desayuno:"1 huevo + 3 claras revueltos con hongos, 1 tortilla de maíz, 1 cdta de aceite",
+    almuerzo:"130 g de pollo, ¼ taza de lentejas, ensalada con 2 cdtas de aceite",
+    merienda:"Yogur griego natural 2% con 1 cda de linaza, 1 cda de chía y 20 g de almendras",
+    cena:"120 g de salmón con coliflor asada y 1 cdta de aceite"
+  },
+  jueves: {
+    n:"Jue",
+    meta:{kcal:"~1219 kcal", prot:"~98 g proteína"},
+    desayuno:"Yogur griego natural 2% con chía, ½ taza de fresas y 20 g de almendras",
+    almuerzo:"150 g de posta de cerdo sin grasa en picadillo de chayote, repollo con limón, 2 cdtas de aceite",
+    merienda:"20 g de maní sin sal + 30 g de queso tierno",
+    cena:"1 huevo + 4 claras en tortilla española sin papa, con brócoli y 2 cdtas de aceite"
+  },
+  viernes: {
+    n:"Vie",
+    meta:{kcal:"~1274 kcal", prot:"~123 g proteína"},
+    desayuno:"1 huevo + 3 claras con ½ taza de espinaca y 30 g de queso tierno, 1 cdta de aceite",
+    almuerzo:"Ensalada de atún con ¼ taza de frijoles y 2 cdtas de aceite",
+    merienda:"Yogur griego natural 2% con chía y 2 mitades de nuez",
+    cena:"130 g de pollo con coliflor y vainicas en 2 cdtas de aceite"
+  },
+  sabado: {
+    n:"Sáb",
+    meta:{kcal:"~1308 kcal", prot:"~113 g proteína"},
+    desayuno:"Yogur griego natural 2% con linaza, chía, ½ taza de fresas y 2 mitades de nuez",
+    almuerzo:"130 g de pollo, ensalada con ¼ de aguacate y 2 cdtas de aceite",
+    merienda:"1 huevo duro + 20 g de almendras",
+    cena:"130 g de tilapia, chayote y repollo salteados en 2 cdtas de aceite"
+  },
+  domingo: {
+    n:"Dom",
+    meta:{kcal:"~1288 kcal", prot:"~118 g proteína"},
+    desayuno:"1 huevo + 3 claras con hongos, 1 tortilla de maíz, 1 cdta de aceite",
+    almuerzo:"130 g de posta de cerdo sin grasa, ¼ taza de lentejas, repollo con 2 cdtas de aceite",
+    merienda:"Yogur griego natural 2% con chía y 20 g de almendras",
+    cena:"100 g de pollo con brócoli y 2 cdtas de aceite"
+  }
+};
 
-        function renderMeals() {
-            const container = document.getElementById('mealsContainer');
-            const dayPlan = dietPlan[currentDay];
-            
-            const mealIcons = {
-                desayuno: '🌅',
-                almuerzo: '☀️',
-                cena: '🌙'
-            };
-            
-            const mealNames = {
-                desayuno: 'Desayuno',
-                almuerzo: 'Almuerzo',
-                cena: 'Cena'
-            };
-            
-            container.innerHTML = '';
-            
-            Object.entries(dayPlan).forEach(([mealType, foods]) => {
-                const mealSection = document.createElement('div');
-                mealSection.className = 'meal-section';
-                
-                mealSection.innerHTML = `
-                    <div class="meal-title">
-                        <span class="meal-icon">${mealIcons[mealType]}</span>
-                        ${mealNames[mealType]}
-                    </div>
-                    ${foods.map((food, index) => `
-                        <div class="food-item">
-                            <div class="food-info">
-                                <div class="food-name">${food.name}</div>
-                                <div class="food-amount">${food.amount}</div>
-                                <div class="food-nutrients">${food.notes}</div>
-                            </div>
-                            <div class="checkbox-container">
-                                <div class="food-checkbox ${isChecked(mealType, index) ? 'checked' : ''}" 
-                                     onclick="toggleFood('${mealType}', ${index})"></div>
-                            </div>
-                        </div>
-                    `).join('')}
-                `;
-                
-                container.appendChild(mealSection);
-            });
-        }
+const DAY_KEYS = ["lunes","martes","miercoles","jueves","viernes","sabado","domingo"];
+const CORE_COUNT = 5; // 4 comidas + psyllium
+const STORE_KEY = "plan-alimentacion-v2";
 
-        function isChecked(mealType, index) {
-            return checkedItems[currentDay] && 
-                  checkedItems[currentDay][mealType] && 
-                  checkedItems[currentDay][mealType][index];
-        }
+let currentDay = DAY_KEYS[0];
+let state = load();
 
-        function toggleFood(mealType, index) {
-            if (!checkedItems[currentDay]) {
-                checkedItems[currentDay] = {};
-            }
-            if (!checkedItems[currentDay][mealType]) {
-                checkedItems[currentDay][mealType] = {};
-            }
-            
-            checkedItems[currentDay][mealType][index] = !checkedItems[currentDay][mealType][index];
-            
-            renderMeals();
-            updateStats();
-            saveData();
-        }
-        
-        function updateStats() {
-            const dayPlan = dietPlan[currentDay];
-            let totalProtein = 0;
-            let totalCarbs = 0;
-            let totalCalories = 0;
-            let totalItems = 0;
-            let checkedCount = 0;
-            
-            // Contar todos los alimentos y los marcados
-            Object.entries(dayPlan).forEach(([mealType, foods]) => {
-                foods.forEach((food, index) => {
-                    totalItems++;
-                    if (isChecked(mealType, index)) {
-                        checkedCount++;
-                        totalProtein += food.protein;
-                        totalCarbs += food.carbs;
-                        totalCalories += food.calories;
-                    }
-                });
-            });
-            
-            // Actualizar las estadísticas
-            document.getElementById('totalProteins').textContent = totalProtein + 'g';
-            document.getElementById('totalCarbs').textContent = totalCarbs + 'g';
-            document.getElementById('totalCalories').textContent = totalCalories;
-            
-            // Calcular porcentaje de progreso
-            const progressPercent = Math.round((checkedCount / totalItems) * 100);
-            document.getElementById('progress').textContent = progressPercent + '%';
-            
-            // Actualizar barras de progreso
-            const proteinPercent = Math.min(Math.round((totalProtein / PROTEIN_GOAL) * 100), 100);
-            const caloriePercent = Math.min(Math.round((totalCalories / CALORIE_GOAL) * 100), 100);
-            
-            document.getElementById('proteinProgress').style.width = proteinPercent + '%';
-            document.getElementById('calorieProgress').style.width = caloriePercent + '%';
-            
-            document.getElementById('proteinText').textContent = `${totalProtein}g / ${PROTEIN_GOAL}g`;
-            document.getElementById('calorieText').textContent = `${totalCalories} / ${CALORIE_GOAL} kcal`;
-        }
-        
-        function resetDay() {
-            if (confirm('¿Estás seguro de que quieres reiniciar el progreso de este día?')) {
-                if (checkedItems[currentDay]) {
-                    checkedItems[currentDay] = {};
-                }
-                renderMeals();
-                updateStats();
-                saveData();
-            }
-        }
-        
-        // Exportar datos como archivo JSON
-        function exportData() {
-            // Guardar los datos actuales
-            dailyNotes[currentDay] = document.getElementById('dailyNotes').value;
-            
-            const data = {
-                checkedItems: checkedItems,
-                dailyNotes: dailyNotes,
-                lastUpdate: new Date().toISOString()
-            };
-            
-            const dataStr = JSON.stringify(data);
-            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
-            
-            const exportName = 'dieta_muscular_' + new Date().toISOString().split('T')[0] + '.json';
-            
-            const linkElement = document.createElement('a');
-            linkElement.setAttribute('href', dataUri);
-            linkElement.setAttribute('download', exportName);
-            linkElement.click();
-            
-            alert('Datos exportados correctamente. Guarda este archivo en Google Drive para acceder desde otro dispositivo.');
-        }
-        
-        // Importar datos desde archivo JSON
-        function importData(files) {
-            if (!files.length) return;
-            
-            const file = files[0];
-            const reader = new FileReader();
-            
-            reader.onload = function(event) {
-                try {
-                    const data = JSON.parse(event.target.result);
-                    
-                    if (!data.checkedItems || !data.dailyNotes) {
-                        throw new Error('Formato de archivo inválido');
-                    }
-                    
-                    // Verificar si los datos importados son más recientes
-                    const localLastUpdate = localStorage.getItem('lastUpdate');
-                    const shouldImport = !localLastUpdate || 
-                                         new Date(data.lastUpdate) > new Date(localLastUpdate) ||
-                                         confirm('Los datos importados son más antiguos que los datos locales. ¿Deseas importarlos de todos modos?');
-                    
-                    if (shouldImport) {
-                        checkedItems = data.checkedItems;
-                        dailyNotes = data.dailyNotes;
-                        
-                        localStorage.setItem('dietCheckedItems', JSON.stringify(checkedItems));
-                        localStorage.setItem('dietDailyNotes', JSON.stringify(dailyNotes));
-                        localStorage.setItem('lastUpdate', data.lastUpdate || new Date().toISOString());
-                        
-                        renderMeals();
-                        updateStats();
-                        document.getElementById('dailyNotes').value = dailyNotes[currentDay] || '';
-                        
-                        alert('Datos importados correctamente');
-                    }
-                } catch (e) {
-                    alert('Error al importar los datos: ' + e.message);
-                }
-            };
-            
-            reader.readAsText(file);
-        }
-        
-        // Inicializar la aplicación
-        document.addEventListener('DOMContentLoaded', function() {
-            loadSavedData();
-            renderMeals();
-            updateStats();
-            document.getElementById('dailyNotes').value = dailyNotes[currentDay] || '';
-            
-            // Guardar datos al cerrar la página
-            window.addEventListener('beforeunload', saveData);
-        });
-    </script>
+function load(){
+  try{
+    const raw = localStorage.getItem(STORE_KEY);
+    if(raw) return JSON.parse(raw);
+  }catch(e){}
+  const s = {};
+  DAY_KEYS.forEach(d => s[d] = {desayuno:false,almuerzo:false,merienda:false,cena:false,psyllium:false,gym:false});
+  return s;
+}
+
+function save(){ try{ localStorage.setItem(STORE_KEY, JSON.stringify(state)); }catch(e){} }
+
+function todayKey(){
+  const i = (new Date().getDay() + 6) % 7; // 0=lunes ... 6=domingo
+  return DAY_KEYS[i];
+}
+
+function dayProgress(d){
+  const s = state[d];
+  let done = 0;
+  MEAL_ORDER.forEach(m => { if(s[m]) done++; });
+  if(s.psyllium) done++;
+  return {done, total:CORE_COUNT};
+}
+
+function renderNav(){
+  const nav = document.getElementById("dayNav");
+  nav.innerHTML = "";
+  DAY_KEYS.forEach(k => {
+    const b = document.createElement("button");
+    b.textContent = PLAN[k].n;
+    b.className = k === currentDay ? "active" : "";
+    b.onclick = () => selectDay(k);
+    nav.appendChild(b);
+  });
+}
+
+function renderDots(){
+  const wrap = document.getElementById("weekDots");
+  wrap.innerHTML = "";
+  DAY_KEYS.forEach(k => {
+    const d = document.createElement("div");
+    d.className = "dot";
+    d.textContent = PLAN[k].n[0];
+    const {done,total} = dayProgress(k);
+    if(done === total) d.classList.add("full");
+    else if(done > 0) d.classList.add("partial");
+    if(k === todayKey()) d.classList.add("today");
+    d.onclick = () => selectDay(k);
+    wrap.appendChild(d);
+  });
+}
+
+function renderMeta(){
+  const m = PLAN[currentDay].meta;
+  document.getElementById("dayMeta").innerHTML =
+    `<span class="chip">${PLAN[currentDay].n}</span>` +
+    `<span><b>${m.kcal}</b></span>` +
+    `<span><b>${m.prot}</b></span>`;
+}
+
+function renderMeals(){
+  const wrap = document.getElementById("meals");
+  wrap.innerHTML = "";
+  MEAL_ORDER.forEach(mealKey => {
+    const card = document.createElement("div");
+    card.className = "meal-card";
+    const done = state[currentDay][mealKey];
+    card.innerHTML = `
+      <div class="meal-head"><span class="icon">${MEAL_META[mealKey].icon}</span>${MEAL_META[mealKey].name}</div>
+      <div class="meal-item ${done ? "done" : ""}" data-meal="${mealKey}">
+        <div class="box">${done ? "✓" : ""}</div>
+        <div class="text">${PLAN[currentDay][mealKey]}</div>
+      </div>`;
+    card.querySelector(".meal-item").onclick = () => toggleMeal(mealKey);
+    wrap.appendChild(card);
+  });
+}
+
+function renderExtras(){
+  document.getElementById("extraPsyllium").className = "extra" + (state[currentDay].psyllium ? " on" : "");
+  document.getElementById("extraGym").className = "extra" + (state[currentDay].gym ? " on" : "");
+}
+
+function renderProgress(){
+  const {done,total} = dayProgress(currentDay);
+  const pct = Math.round(done/total*100);
+  document.getElementById("progFill").style.width = pct + "%";
+  document.getElementById("progPct").textContent = pct + "%";
+  document.getElementById("progLabel").textContent =
+    done === total ? "¡Día completo! 🎉" : `Progreso del día (${done}/${total})`;
+}
+
+function render(){
+  renderNav(); renderDots(); renderMeta(); renderMeals(); renderExtras(); renderProgress();
+}
+
+function selectDay(k){
+  currentDay = k;
+  render();
+}
+
+function toggleMeal(mealKey){
+  state[currentDay][mealKey] = !state[currentDay][mealKey];
+  save(); render();
+}
+
+function toggleDaily(key){
+  state[currentDay][key] = !state[currentDay][key];
+  save(); render();
+}
+
+function resetWeek(){
+  if(!confirm("¿Reiniciar el progreso de TODA la semana?")) return;
+  DAY_KEYS.forEach(d => state[d] = {desayuno:false,almuerzo:false,merienda:false,cena:false,psyllium:false,gym:false});
+  save(); render();
+}
+
+currentDay = todayKey();
+render();
+</script>
 </body>
 </html>
