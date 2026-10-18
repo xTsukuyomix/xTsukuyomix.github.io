@@ -203,9 +203,8 @@ const INGREDIENTS = {
   fresas:    {name:"fresas",     cat:"Fruta",    on:true,  alts:["moras","frambuesas","arandanos"]},
   mandarina: {name:"mandarina",  cat:"Fruta",    on:false, alts:["fresas","arandanos","kiwi"]},
   arandanos: {name:"arándanos",  cat:"Fruta",    on:false, alts:["fresas","moras","frambuesas"]},
-  pollo:     {name:"pollo",      cat:"Proteína", on:true,  alts:["res","cerdo","tilapia"]},
-  res:       {name:"res magra molida", cat:"Proteína", on:true, alts:["pollo","cerdo","tilapia"]},
-  cerdo:     {name:"posta de cerdo",  cat:"Proteína", on:true, alts:["res","pollo","tilapia"]},
+  pollo:     {name:"pollo",      cat:"Proteína", on:true,  alts:["cerdo","tilapia","atun"]},
+  cerdo:     {name:"posta de cerdo",  cat:"Proteína", on:true, alts:["pollo","tilapia","atun"]},
   tilapia:   {name:"tilapia",    cat:"Proteína", on:true,  alts:["corvina","merluza","atun"]},
   salmon:    {name:"salmón",     cat:"Proteína", on:true,  alts:["sardinas","atun","tilapia"]},
   atun:      {name:"atún",       cat:"Proteína", on:true,  alts:["sardinas","salmon","tilapia"]}
@@ -234,7 +233,7 @@ const PLAN = {
   lunes: {
     n:"Lun", meta:{kcal:"~1700 kcal", prot:"~130 g proteína"},
     desayuno:"Omelette de 1 huevo + 3 claras con ½ taza de [espinaca] y 30 g de queso tierno, en 1 cdta de aceite",
-    almuerzo:"140 g de [res] en albóndigas o picadillo, ensalada grande (90 g lechuga · 120 g tomate · 150 g pepino · 2 cdtas de aceite de oliva), ¼ taza de frijoles (cocidos)",
+    almuerzo:"140 g de [pollo] en albóndigas o picadillo, ensalada grande (90 g lechuga · 120 g tomate · 150 g pepino · 2 cdtas de aceite de oliva), ¼ taza de frijoles (cocidos)",
     merienda:"170 g de yogur griego natural 2% con 12 g de chía y 30 g de almendras",
     cena:"130 g de [tilapia] al horno con 150 g de [brocoli] y 2 cdtas de aceite"
   },
@@ -243,19 +242,19 @@ const PLAN = {
     desayuno:"170 g de yogur griego natural 2% con 12 g de chía, 7 g de linaza, ½ taza de [fresas] y 2 mitades de nuez",
     almuerzo:"Ensalada de [atun] (1 lata en agua, bajo sodio) con 60 g lechuga, 60 g tomate, 100 g pepino, ½ [aguacate] y 2 cdtas de aceite",
     merienda:"1 huevo duro + 30 g de maní sin sal + 170 g de yogur griego 2%",
-    cena:"130 g de [res] salteada con 150 g de [vainicas] y [coliflor] en 2 cdtas de aceite"
+    cena:"130 g de [pollo] salteada con 150 g de [vainicas] y [coliflor] en 2 cdtas de aceite"
   },
   miercoles: {
     n:"Mié", meta:{kcal:"~1700 kcal", prot:"~125 g proteína"},
     desayuno:"1 huevo + 3 claras revueltos con 100 g de [hongos], 1 tortilla de maíz, 1 cdta de aceite",
-    almuerzo:"130 g de [res] (hamburguesa magra o picadillo), ¼ taza de lentejas (cocidas), ensalada (60 g lechuga · 60 g tomate · 100 g pepino · 2 cdtas de aceite)",
+    almuerzo:"130 g de [pollo] (hamburguesa magra o picadillo), ¼ taza de lentejas (cocidas), ensalada (60 g lechuga · 60 g tomate · 100 g pepino · 2 cdtas de aceite)",
     merienda:"170 g de yogur griego natural 2% con 7 g de linaza, 12 g de chía y 30 g de almendras",
     cena:"120 g de [salmon] con 150 g de [coliflor] asada y 1 cdta de aceite"
   },
   jueves: {
     n:"Jue", meta:{kcal:"~1700 kcal", prot:"~98 g proteína"},
     desayuno:"170 g de yogur griego natural 2% con 12 g de chía, ½ taza de [fresas] y 30 g de almendras",
-    almuerzo:"150 g de [res] en picadillo de 150 g de [chayote], 100 g de [repollo] con limón, 2 cdtas de aceite",
+    almuerzo:"150 g de [cerdo] en picadillo de 150 g de [chayote], 100 g de [repollo] con limón, 2 cdtas de aceite",
     merienda:"30 g de maní sin sal + 30 g de queso tierno + 170 g de yogur griego 2%",
     cena:"1 huevo + 4 claras en tortilla española sin papa, con 150 g de [brocoli] y 2 cdtas de aceite"
   },
@@ -276,7 +275,7 @@ const PLAN = {
   domingo: {
     n:"Dom", meta:{kcal:"~1700 kcal", prot:"~118 g proteína"},
     desayuno:"1 huevo + 3 claras con 100 g de [hongos], 1 tortilla de maíz, 1 cdta de aceite",
-    almuerzo:"130 g de [res], ¼ taza de lentejas (cocidas), 100 g de [repollo] con 2 cdtas de aceite",
+    almuerzo:"130 g de [cerdo], ¼ taza de lentejas (cocidas), 100 g de [repollo] con 2 cdtas de aceite",
     merienda:"170 g de yogur griego natural 2% con 12 g de chía y 30 g de almendras",
     cena:"100 g de [pollo] con 150 g de [coliflor] y 2 cdtas de aceite"
   }
@@ -284,18 +283,14 @@ const PLAN = {
 
 const PREP_BLOCKS = [
   {title:"🍱 Domingo por la tarde → prepara para Lun · Mar · Mié",
-   sub:"Cocina en bloque: res molida, pollo, tilapia, vegetales al vapor/salteados, frijoles/lentejas y huevo duro. Divide en porciones y guarda en la refri."},
+   sub:"Cocina en bloque: pollo, tilapia, vegetales al vapor/salteados, frijoles/lentejas y huevo duro. Divide en porciones y guarda en la refri."},
   {title:"🍱 Miércoles por la tarde → prepara para Jue · Vie · Sáb",
-   sub:"Cocina en bloque: res molida, pollo, vegetales y huevo duro. Lo fresco (ensaladas, huevo revuelto, fruta) se hace al momento."}
+   sub:"Cocina en bloque: pollo, cerdo, vegetales y huevo duro. Lo fresco (ensaladas, huevo revuelto, fruta) se hace al momento."}
 ];
 
 const RECIPES = [
-  {name:"Res magra molida (albóndigas o picadillo)", tag:"prep",
-   days:"Lun almuerzo · Mar cena · Mié almuerzo · Jue almuerzo · Dom almuerzo",
-   note:"Cocina el kilo entero de una vez → ~5 porciones de 140 g. En refri dura hasta 4 días.",
-   steps:["Sazona con ajo, cebolla, culantro, comino y pimienta (poca sal).","Forma albóndigas o saltéala como picadillo en 1 cdta de aceite.","Escurre la grasa.","Divide en porciones de ~140 g y guarda."]},
   {name:"Pollo (plancha o salteado)", tag:"prep",
-   days:"Vie cena · Sáb almuerzo · Dom cena",
+   days:"Lun almuerzo · Mar cena · Mié almuerzo · Vie cena · Sáb almuerzo · Dom cena",
    note:"Cocina en bloque y divide en porciones de 130–140 g. En refri 3–4 días.",
    steps:["Pechuga con ajo, limón y pimienta.","A la plancha o salteada con 1 cdta de aceite.","Divide en porciones de ~130 g y guarda."]},
   {name:"Tilapia al horno", tag:"prep",
