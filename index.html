@@ -200,7 +200,9 @@ const INGREDIENTS = {
   calabacin: {name:"calabacín",  cat:"Verdura",  on:true,  alts:["chayote","vainicas","coliflor"]},
   hongos:    {name:"hongos",     cat:"Verdura",  on:true,  alts:["espinaca","chayote","vainicas"]},
   aguacate:  {name:"aguacate",   cat:"Verdura",  on:true,  alts:["aceite de oliva (extra)","almendras","nueces"]},
-  fresas:    {name:"fresas",     cat:"Fruta",    on:true,  alts:["moras","frambuesas","arándanos"]},
+  fresas:    {name:"fresas",     cat:"Fruta",    on:true,  alts:["moras","frambuesas","arandanos"]},
+  mandarina: {name:"mandarina",  cat:"Fruta",    on:false, alts:["fresas","arandanos","kiwi"]},
+  arandanos: {name:"arándanos",  cat:"Fruta",    on:false, alts:["fresas","moras","frambuesas"]},
   pollo:     {name:"pollo",      cat:"Proteína", on:true,  alts:["res","cerdo","tilapia"]},
   res:       {name:"res magra molida", cat:"Proteína", on:true, alts:["pollo","cerdo","tilapia"]},
   cerdo:     {name:"posta de cerdo",  cat:"Proteína", on:true, alts:["res","pollo","tilapia"]},
@@ -212,7 +214,6 @@ const INGREDIENTS = {
 const STOCK = [
   {name:"Res magra molida", qty:"1 kg", note:"USAR PRIMERO · más viejo"},
   {name:"Pollo", qty:"1 kg", note:"usar después de la res"},
-  {name:"Mandarinas", qty:"9", note:"1 al día · 2 antes del gimnasio"},
   {name:"Maní", qty:"—", note:"úsa en lugar de almendras"}
 ];
 
@@ -220,6 +221,7 @@ const STAPLES = [
   "Huevos (cartón de 30)",
   "Yogur griego natural 2% (unos 1.2 kg)",
   "Queso tierno bajo en sal",
+  "Leche 2%",
   "Chía · Linaza molida",
   "Aceite de oliva",
   "Almendras · Maní · Nueces sin sal",
