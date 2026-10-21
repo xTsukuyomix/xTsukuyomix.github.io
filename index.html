@@ -211,7 +211,7 @@ const INGREDIENTS = {
 };
 
 const STOCK = [
-  {name:"Pollo", qty:"1 kg", note:"usar"},
+  {name:"Pollo", qty:"1.1 kg", note:"usar"},
   {name:"Maní", qty:"—", note:"úsa en lugar de almendras"}
 ];
 
@@ -233,28 +233,28 @@ const PLAN = {
   lunes: {
     n:"Lun", meta:{kcal:"~1700 kcal", prot:"~130 g proteína"},
     desayuno:"Omelette de 1 huevo + 3 claras con ½ taza de [espinaca] y 30 g de queso tierno, en 1 cdta de aceite",
-    almuerzo:"140 g de [pollo] en albóndigas o picadillo, ensalada grande (90 g lechuga · 120 g tomate · 150 g pepino · 2 cdtas de aceite de oliva), ¼ taza de frijoles (cocidos)",
+    almuerzo:"185 g (peso crudo) de [pollo] en albóndigas o picadillo, ensalada grande (90 g lechuga · 120 g tomate · 150 g pepino · 2 cdtas de aceite de oliva), ¼ taza de frijoles (cocidos)",
     merienda:"170 g de yogur griego natural 2% con 12 g de chía y 30 g de almendras",
-    cena:"130 g de [tilapia] al horno con 150 g de [brocoli] y 2 cdtas de aceite"
+    cena:"175 g (peso crudo) de [tilapia] al horno con 150 g de [brocoli] y 2 cdtas de aceite"
   },
   martes: {
     n:"Mar", meta:{kcal:"~1700 kcal", prot:"~110 g proteína"},
     desayuno:"170 g de yogur griego natural 2% con 12 g de chía, 7 g de linaza, ½ taza de [fresas] y 2 mitades de nuez",
     almuerzo:"Ensalada de [atun] (1 lata en agua, bajo sodio) con 60 g lechuga, 60 g tomate, 100 g pepino, ½ [aguacate] y 2 cdtas de aceite",
     merienda:"1 huevo duro + 30 g de maní sin sal + 170 g de yogur griego 2%",
-    cena:"130 g de [pollo] salteada con 150 g de [vainicas] y [coliflor] en 2 cdtas de aceite"
+    cena:"175 g (peso crudo) de [pollo] salteado con 150 g de [vainicas] y [coliflor] en 2 cdtas de aceite"
   },
   miercoles: {
     n:"Mié", meta:{kcal:"~1700 kcal", prot:"~125 g proteína"},
     desayuno:"1 huevo + 3 claras revueltos con 100 g de [hongos], 1 tortilla de maíz, 1 cdta de aceite",
-    almuerzo:"130 g de [pollo] (hamburguesa magra o picadillo), ¼ taza de lentejas (cocidas), ensalada (60 g lechuga · 60 g tomate · 100 g pepino · 2 cdtas de aceite)",
+    almuerzo:"175 g (peso crudo) de [pollo] (hamburguesa magra o picadillo), ¼ taza de lentejas (cocidas), ensalada (60 g lechuga · 60 g tomate · 100 g pepino · 2 cdtas de aceite)",
     merienda:"170 g de yogur griego natural 2% con 7 g de linaza, 12 g de chía y 30 g de almendras",
-    cena:"120 g de [salmon] con 150 g de [coliflor] asada y 1 cdta de aceite"
+    cena:"150 g (peso crudo) de [salmon] con 150 g de [coliflor] asada y 1 cdta de aceite"
   },
   jueves: {
     n:"Jue", meta:{kcal:"~1700 kcal", prot:"~98 g proteína"},
     desayuno:"170 g de yogur griego natural 2% con 12 g de chía, ½ taza de [fresas] y 30 g de almendras",
-    almuerzo:"150 g de [cerdo] en picadillo de 150 g de [chayote], 100 g de [repollo] con limón, 2 cdtas de aceite",
+    almuerzo:"200 g (peso crudo) de [cerdo] en picadillo de 150 g de [chayote], 100 g de [repollo] con limón, 2 cdtas de aceite",
     merienda:"30 g de maní sin sal + 30 g de queso tierno + 170 g de yogur griego 2%",
     cena:"1 huevo + 4 claras en tortilla española sin papa, con 150 g de [brocoli] y 2 cdtas de aceite"
   },
@@ -263,21 +263,21 @@ const PLAN = {
     desayuno:"1 huevo + 3 claras con ½ taza de [espinaca] y 30 g de queso tierno, 1 cdta de aceite",
     almuerzo:"Ensalada de [atun] (60 g lechuga · 60 g tomate · 100 g pepino) con ¼ taza de frijoles (cocidos) y 2 cdtas de aceite",
     merienda:"170 g de yogur griego natural 2% con 12 g de chía y 2 mitades de nuez",
-    cena:"130 g de [pollo] con 150 g de [coliflor] y [vainicas] en 2 cdtas de aceite"
+    cena:"175 g (peso crudo) de [pollo] con 150 g de [coliflor] y [vainicas] en 2 cdtas de aceite"
   },
   sabado: {
     n:"Sáb", meta:{kcal:"~1700 kcal", prot:"~113 g proteína"},
     desayuno:"170 g de yogur griego natural 2% con 12 g de chía, 7 g de linaza, ½ taza de [fresas] y 2 mitades de nuez",
-    almuerzo:"130 g de [pollo], ensalada (60 g lechuga · 60 g tomate · 100 g pepino) con ½ [aguacate] y 2 cdtas de aceite",
+    almuerzo:"175 g (peso crudo) de [pollo], ensalada (60 g lechuga · 60 g tomate · 100 g pepino) con ½ [aguacate] y 2 cdtas de aceite",
     merienda:"1 huevo duro + 30 g de almendras + 170 g de yogur griego 2%",
-    cena:"130 g de [tilapia], 150 g de [chayote] y [repollo] salteados en 2 cdtas de aceite"
+    cena:"175 g (peso crudo) de [tilapia], 150 g de [chayote] y [repollo] salteados en 2 cdtas de aceite"
   },
   domingo: {
     n:"Dom", meta:{kcal:"~1700 kcal", prot:"~118 g proteína"},
     desayuno:"1 huevo + 3 claras con 100 g de [hongos], 1 tortilla de maíz, 1 cdta de aceite",
-    almuerzo:"130 g de [cerdo], ¼ taza de lentejas (cocidas), 100 g de [repollo] con 2 cdtas de aceite",
+    almuerzo:"175 g (peso crudo) de [cerdo], ¼ taza de lentejas (cocidas), 100 g de [repollo] con 2 cdtas de aceite",
     merienda:"170 g de yogur griego natural 2% con 12 g de chía y 30 g de almendras",
-    cena:"100 g de [pollo] con 150 g de [coliflor] y 2 cdtas de aceite"
+    cena:"135 g (peso crudo) de [pollo] con 150 g de [coliflor] y 2 cdtas de aceite"
   }
 };
 
@@ -291,16 +291,16 @@ const PREP_BLOCKS = [
 const RECIPES = [
   {name:"Pollo (plancha o salteado)", tag:"prep",
    days:"Lun almuerzo · Mar cena · Mié almuerzo · Vie cena · Sáb almuerzo · Dom cena",
-   note:"Cocina en bloque y divide en porciones de 130–140 g. En refri 3–4 días.",
-   steps:["Pechuga con ajo, limón y pimienta.","A la plancha o salteada con 1 cdta de aceite.","Divide en porciones de ~130 g y guarda."]},
+   note:"Pesa en crudo y separa porciones (135–185 g) antes de cocinar en bloque. En refri 3–4 días.",
+   steps:["Pechuga con ajo, limón y pimienta.","A la plancha o salteada con 1 cdta de aceite.","Cocina y guarda cada porción por separado."]},
   {name:"Tilapia al horno", tag:"prep",
    days:"Lun cena · Sáb cena",
    note:"Prepara 2 porciones; consúmelas en 2 días (el pescado no dura tanto).",
-   steps:["130 g con limón, ajo y orégano + 1 cdta de aceite.","Al horno 180 °C por ~15 min.","Guarda en porciones."]},
+   steps:["175 g (peso crudo) con limón, ajo y orégano + 1 cdta de aceite.","Al horno 180 °C por ~15 min.","Guarda en porciones."]},
   {name:"Salmón", tag:"prep",
    days:"Mié cena",
    note:"Consume en 1–2 días.",
-   steps:["120 g con limón y pimienta.","Al horno o sartén 8–10 min."]},
+   steps:["150 g (peso crudo) con limón y pimienta.","Al horno o sartén 8–10 min."]},
   {name:"Vegetales (vainicas, coliflor, chayote, repollo, hongos)", tag:"prep",
    days:"varios días de la semana",
    note:"Córtalos y cuécelos en bloque el día de prep; guarda porciones en la refri.",
